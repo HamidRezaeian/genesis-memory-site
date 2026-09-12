@@ -8,6 +8,8 @@ const FEATURES = [
   { t: 'Live pricing · dollars, not vibes', d: 'A 437-model pricing catalog ships in the wheel and refreshes live. Every stripped token is converted into real money saved at your model\'s rate, with prompt-cache discounts applied.', tone: 'amber', tag: 'pricing_engine' },
   { t: 'AST dependency closure', d: 'Extracted import graphs let an agent attest that its working context covers the real blast radius of a change — before it claims the task is done.', tone: 'cyan', tag: 'attest_closure()' },
   { t: 'Mission Control dashboard', d: 'A zero-dependency cockpit streaming SSE telemetry: memory universe, engram explorer, conflict deck, skill browser, token diet, client mesh, privacy sandbox.', tone: 'rose', tag: 'genesis dashboard' },
+  { t: 'Memory follows you', d: 'One encrypted file carries your whole memory to your other machines. Content-addressed merge never overwrites: re-imports change nothing, id collisions are preserved as new memories.', tone: 'cyan', tag: 'genesis sync · Pro' },
+  { t: 'Backups + time travel', d: 'Automatic encrypted snapshots of the whole database with bounded retention. Restore safety-saves the present first and verifies integrity before swapping — a broken restore is structurally impossible.', tone: 'cyan', tag: 'genesis backup · Pro' },
 ]
 
 export default function Features() {
