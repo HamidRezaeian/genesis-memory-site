@@ -34,6 +34,9 @@ export default function SleepViz() {
   const [phase, setPhase] = useState(0)
   const [reinforced, setReinforced] = useState(0)
   const [distilled, setDistilled] = useState(false)
+  // Feedback for the reinforce button: which engram flashed + what changed.
+  const flash = useRef({ i: -1, t: 0 })
+  const [lastBoost, setLastBoost] = useState(null)
   const engrams = useRef(Array.from({ length: 22 }, (_, i) => ({ age: Math.random() * 40, tau: [7, 7, 7, 14, 14, 30, 90][i % 7], tone: ['cyan', 'violet', 'emerald'][i % 3], speed: 0.6 + Math.random() })))
 
   useEffect(() => {
@@ -59,20 +62,40 @@ export default function SleepViz() {
       // dormancy threshold
       ctx.setLineDash([4, 5]); ctx.strokeStyle = 'rgba(148,163,184,.5)'; ctx.beginPath(); ctx.moveTo(pad.l, pad.t + H * .8); ctx.lineTo(w - pad.r, pad.t + H * .8); ctx.stroke(); ctx.setLineDash([]); ctx.textAlign = 'right'; ctx.font = '10.5px Inter'; ctx.lineWidth = 3; ctx.strokeStyle = '#0a0f16'; ctx.strokeText('dormancy threshold · tombstone below', w - pad.r - 6, pad.t + H * .8 - 6); ctx.fillStyle = 'rgba(148,163,184,.9)'; ctx.fillText('dormancy threshold · tombstone below', w - pad.r - 6, pad.t + H * .8 - 6)
       // engrams sliding down their curve; reinforcement (phase NREM click) bumps tau
-      for (const e of engrams.current) {
+      const dots = engrams.current
+      for (let n = 0; n < dots.length; n++) {
+        const e = dots[n]
         e.age += dt * e.speed * (phase === 0 ? 2.2 : 0.7); if (e.age > 60) { e.age = 0; e.tau = [7, 14, 30, 90][Math.floor(Math.random() * 4)] }
         const ret = Math.exp(-e.age / e.tau); const x = pad.l + W * e.age / 60, y = pad.t + H * (1 - ret)
         const dormant = ret < 0.2; const col = dormant ? '93,107,125' : tones[e.tone]
         const gg = ctx.createRadialGradient(x, y, 0, x, y, 9); gg.addColorStop(0, `rgba(${col},.9)`); gg.addColorStop(1, `rgba(${col},0)`); ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill()
         ctx.fillStyle = `rgba(${col},1)`; ctx.beginPath(); ctx.arc(x, y, dormant ? 2 : 3.2, 0, Math.PI * 2); ctx.fill()
         if (dormant && phase === 0) { ctx.strokeStyle = 'rgba(148,163,184,.6)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4); ctx.stroke() }
+        // reinforce flash: expanding ring on the boosted engram (~1.6s)
+        if (flash.current.i === n) {
+          const age = (now - flash.current.t) / 1600
+          if (age >= 1) { flash.current.i = -1 }
+          else { ctx.beginPath(); ctx.arc(x, y, 6 + age * 26, 0, Math.PI * 2); ctx.strokeStyle = `rgba(0,240,255,${0.85 * (1 - age)})`; ctx.lineWidth = 2; ctx.stroke() }
+        }
       }
       raf = requestAnimationFrame(frame)
     }
     raf = requestAnimationFrame(frame); return () => cancelAnimationFrame(raf)
   }, [phase])
 
-  const reinforce = () => { const cands = engrams.current.filter(e => e.tau < 90); if (!cands.length) return; const e = cands[Math.floor(Math.random() * cands.length)]; e.tau = e.tau === 7 ? 14 : e.tau === 14 ? 30 : 90; e.age = Math.min(e.age, 5); setReinforced(r => r + 1) }
+  const reinforce = () => {
+    const dots = engrams.current
+    const idx = dots.map((e, i) => e.tau < 90 ? i : -1).filter(i => i >= 0)
+    if (!idx.length) return
+    const n = idx[Math.floor(Math.random() * idx.length)]
+    const e = dots[n]
+    const from = e.tau
+    e.tau = from === 7 ? 14 : from === 14 ? 30 : 90
+    e.age = Math.min(e.age, 5)
+    flash.current = { i: n, t: performance.now() }
+    setLastBoost({ from, to: e.tau })
+    setReinforced(r => r + 1)
+  }
 
   return (
     <section id="sleep" className="section">
@@ -88,8 +111,12 @@ export default function SleepViz() {
                     <span style={{ width: 22, borderTop: `${c.lw}px ${c.dash.length ? 'dashed' : 'solid'} ${c.col}`, display: 'inline-block' }} />{c.label}
                   </span>))}
               </div>
-              <div style={{ position: 'absolute', right: 14, top: 12, display: 'flex', gap: 6 }}>
+              <div style={{ position: 'absolute', right: 14, top: 12, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
                 <button className="btn sm primary" onClick={reinforce}>▲ reinforce{reinforced ? ` · ${reinforced}` : ' a random engram'}</button>
+                <AnimatePresence>{lastBoost && (
+                  <motion.span key={`${reinforced}`} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mono" style={{ fontSize: 11, color: 'var(--cyan)', background: 'rgba(5,7,11,.8)', border: '1px solid rgba(0,240,255,.3)', borderRadius: 8, padding: '3px 9px' }}>
+                    τ {lastBoost.from}d → {lastBoost.to}d · synapse strengthened
+                  </motion.span>)}</AnimatePresence>
               </div>
             </div>
           </Reveal>
