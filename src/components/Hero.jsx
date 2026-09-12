@@ -37,7 +37,7 @@ function LiveTicker() {
     <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap', alignItems: 'center' }}>
       <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, color: 'var(--cyan)', letterSpacing: '-.03em' }}>{fmt.int(tk)}</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>tokens dieted · live</div></div>
       <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, color: '#fff', letterSpacing: '-.03em' }}>{fmt.usd(dl)}</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>saved this month</div></div>
-      <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-.03em' }}>472<span style={{ color: 'var(--fg-3)', fontSize: 16 }}>/472</span></div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>tests green</div></div>
+      <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-.03em' }}>472</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>tests green</div></div>
     </div>
   )
 }
@@ -86,7 +86,7 @@ function HeroOrb() {
     return () => ro.disconnect()
   }, [])
   const chips = [
-    ['decision', 'Use WAL + busy_timeout', 'fg'], ['fact', 'Proxy listens on :8000', 'fg'], ['outcome', '472/472 tests green', 'fg'],
+    ['decision', 'Use WAL + busy_timeout', 'fg'], ['fact', 'Proxy listens on :8000', 'fg'], ['outcome', '472 tests green', 'fg'],
     ['skill', 'genesis run -- pytest', 'fg'], ['fact', 'Zed → context_servers', 'fg'], ['decision', 'Redact first', 'fg'],
   ]
   const rOuter = Math.max(170, w * 0.4), rInner = Math.max(125, w * 0.29)

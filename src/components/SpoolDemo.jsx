@@ -101,8 +101,8 @@ export default function SpoolDemo() {
             <Holo tilt={false}>
               <div className="pad" style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
                 <div style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
-                  <ProgressRing value={phase === 'pointer' ? 0.984 : (shown / TOTAL_LINES) * 0.02} size={110} stroke={9} color="var(--cyan)">
-                    <div style={{ textAlign: 'center' }}><div className="mono" style={{ fontSize: 22, fontWeight: 700, color: phase === 'pointer' ? 'var(--cyan)' : '#fff' }}>{phase === 'pointer' ? '−98.4%' : fmt.pct((shown / TOTAL_LINES) * 100, 0)}</div><div style={{ fontSize: 10, color: 'var(--fg-3)', letterSpacing: '.12em' }}>{phase === 'pointer' ? 'TOKEN DIET' : 'CAPTURED'}</div></div>
+                  <ProgressRing value={phase === 'pointer' ? 0.999 : (shown / TOTAL_LINES) * 0.02} size={110} stroke={9} color="var(--cyan)">
+                    <div style={{ textAlign: 'center' }}><div className="mono" style={{ fontSize: 22, fontWeight: 700, color: phase === 'pointer' ? 'var(--cyan)' : '#fff' }}>{phase === 'pointer' ? '−99.9%' : fmt.pct((shown / TOTAL_LINES) * 100, 0)}</div><div style={{ fontSize: 10, color: 'var(--fg-3)', letterSpacing: '.12em' }}>{phase === 'pointer' ? 'TOKEN DIET' : 'CAPTURED'}</div></div>
                   </ProgressRing>
                   <div>
                     <div className="mono" style={{ fontSize: 40, fontWeight: 700, letterSpacing: '-.04em', lineHeight: 1, color: 'var(--cyan)' }}>{fmt.int(tokens)}</div>

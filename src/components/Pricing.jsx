@@ -7,8 +7,8 @@ const TIERS = [
     feats: ['Local SQLite memory (WAL, 5000 ms busy timeout)', 'Subconscious 200-token hook', 'Lossless headless spooling (60+ toolchains)', 'Universal 1-click setup · 20 clients', 'Zero-trust privacy shield', 'Stdio MCP server · 19 tools', 'High-ratio structural compactor', 'Hebbian sleep distillation & skills', 'Live pricing · dollars saved', 'OpenAI + Anthropic gateway routes'] },
   { name: 'Developer Pro', price: [14, 12], tone: 'cyan', tag: 'Most popular', hot: true, cta: 'Start Pro', href: '#',
     feats: ['Everything in Community', 'Mission Control dashboard', 'Personal device sync — memory follows you', 'Encrypted backups + time travel', 'License entitlements + priority token budget'] },
-  { name: 'Enterprise Gateway', price: [39, 32], tone: 'fg', tag: 'Per seat', cta: 'Talk to us', href: 'mailto:hello@genesis-memory.dev',
-    feats: ['Everything in Pro', 'Team shared memory sync (vector clocks)', 'On-prem Docker gateway', 'Zero-leak audit logs', 'SSO & seat management', 'SLA support'] },
+  { name: 'Enterprise Gateway', price: [39, 32], tone: 'fg', tag: 'Per seat', cta: 'Start Enterprise', href: 'mailto:hello@genesis-memory.dev?subject=Enterprise%20license',
+    feats: ['Everything in Pro', 'Team shared memory sync (vector clocks)', 'On-prem Docker gateway', 'Zero-leak audit logs', 'Per-seat license keys', 'SLA support'] },
 ]
 
 export default function Pricing() {
@@ -40,7 +40,7 @@ export default function Pricing() {
               </Holo>
             </Reveal>))}
         </div>
-        <Reveal style={{ marginTop: 18 }} className="center"><p className="mono" style={{ fontSize: 12, color: 'var(--fg-3)' }}>Offline-first HMAC-SHA256 licensing · works fully air-gapped · <code>genesis auth --key GEN-PRO-…</code></p></Reveal>
+        <Reveal style={{ marginTop: 18 }} className="center"><p className="mono" style={{ fontSize: 12, color: 'var(--fg-3)' }}>Offline-first Ed25519-signed licensing · works fully air-gapped · <code>genesis auth --key GEN-PRO-…</code></p></Reveal>
       </div>
     </section>
   )
@@ -48,7 +48,7 @@ export default function Pricing() {
 
 const FAQ = [
   ['How is this different from .cursorrules or CLAUDE.md?', 'Those are static text you maintain by hand and paste into every prompt in full. GENESIS is a live, queried memory: the hook injects only the ≤200 tokens relevant to this prompt, memories decay and are reinforced from outcomes, conflicts are staged for your veto, and the same store is shared by every client you use.'],
-  ['Does any data leave my machine?', 'No. Storage is a local SQLite file, the proxy runs on 127.0.0.1, licensing is verified offline with HMAC-SHA256, and the only outbound call is the optional pricing-catalog refresh (a bundled snapshot ships in the wheel). Secrets are redacted before they can be persisted.'],
+  ['Does any data leave my machine?', 'No. Storage is a local SQLite file, the proxy runs on 127.0.0.1, licensing is verified offline with Ed25519 signatures. The only outbound calls are the optional pricing-catalog refresh (a bundled snapshot ships in the wheel) and a cached 24h PyPI version check on `genesis doctor`/`upgrade` (0.8s timeout, silent when offline) — the proxy itself never auto-fetches. Secrets are redacted before they can be persisted.'],
   ['What happens if the proxy or daemon is down?', 'Every integration is fail-open. Clients keep working exactly as before; you just lose the diet and the memory capsule until the process is back. The spool and store are append-only WAL files — nothing corrupts on a crash.'],
   ['Will it lock my database when several agents write at once?', 'No. Every connection uses WAL mode, a 5000 ms busy timeout and BEGIN IMMEDIATE transactions with jittered retry. The test suite runs an 8-process write storm against one file and asserts zero lock errors.'],
   ['My editor isn\'t on the list.', 'If it speaks MCP, `genesis export-config --format json|yaml|toml` gives you the snippet. If it speaks OpenAI or Anthropic, point its base URL at the gateway. Open an issue and we\'ll add native auto-wiring.'],

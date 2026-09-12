@@ -19,7 +19,7 @@ export default function ShieldSandbox() {
   return (
     <section id="shield" className="section">
       <div className="wrap">
-        <SectionHead eyebrow="Zero-Trust Privacy Shield" tone="rose" title="Secrets never touch disk." grad="Prove it yourself." lead="Every byte headed for SQLite or the spool passes two independent detectors: 15 structural vendor patterns and a live Shannon-entropy gate at 4.0 bits/char. Random credentials trip the gate even with no known prefix; git SHAs, URLs and code identifiers pass through untouched. Type anything — this sandbox runs the exact same algorithm in your browser and stores nothing." />
+        <SectionHead eyebrow="Zero-Trust Privacy Shield" tone="rose" title="Secrets never touch disk." grad="Prove it yourself." lead="Every byte headed for SQLite or the spool passes two independent detectors: 17 structural vendor patterns and a live Shannon-entropy gate at 4.0 bits/char. Random credentials trip the gate even with no known prefix; git SHAs, URLs and code identifiers pass through untouched. Type anything — this sandbox runs the exact same algorithm in your browser and stores nothing." />
         <div className="grid" style={{ gridTemplateColumns: 'minmax(0,1.1fr) minmax(0,.9fr)', marginTop: 44, alignItems: 'start' }}>
           <Reveal>
             <Holo tilt={false}>

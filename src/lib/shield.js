@@ -15,6 +15,7 @@ export const STRUCTURAL = [
   ['pem_block', /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g],
   ['pem_unclosed', /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*/g],
   ['openai', /\b(sk-(?:proj-|ant-)?[A-Za-z0-9_-]{20,})\b/g],
+  ['anthropic', /\b(sk-ant-[A-Za-z0-9_-]{20,})\b/g],
   ['google', /\b(AIza[0-9A-Za-z\-_]{30,})\b/g],
   ['github', /\b(gh[pousr]_[A-Za-z0-9_]{30,})\b/g],
   ['github_pat', /\b(github_pat_[A-Za-z0-9_]{60,})\b/g],
