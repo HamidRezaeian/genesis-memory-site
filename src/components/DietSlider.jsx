@@ -54,6 +54,7 @@ export default function DietSlider() {
                     <Seg w={CAPSULE_TOKENS / after} c="#e8eef4" label="capsule 176" />
                     <Seg w={(toolCalls * 84) / after} c="#8e9cae" label={`${toolCalls} pointer${toolCalls > 1 ? 's' : ''}`} />
                   </div>
+                  <div className="mono" style={{ fontSize: 10.5, color: 'var(--fg-3)', marginTop: 6 }}>capsule ← pre-invocation hook · pointers + collapsed history ← stateless gateway</div>
                   <div style={{ display: 'flex', height: 10, borderRadius: 6, overflow: 'hidden', marginTop: 6, opacity: .35 }}>
                     <div style={{ width: `${(after / raw) * 100}%`, background: 'var(--cyan)' }} /><div style={{ flex: 1, background: 'repeating-linear-gradient(135deg, rgba(148,163,184,.5) 0 4px, transparent 4px 8px)' }} />
                   </div>
