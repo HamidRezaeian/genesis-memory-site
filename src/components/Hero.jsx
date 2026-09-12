@@ -78,29 +78,30 @@ export default function Hero() {
 
 /** Hero visual: the product's signature mechanic, not decoration.
  *  A glowing subconscious capsule slides into a live prompt while the
- *  context counter crashes 79,200 → 176. What the product DOES, in one look. */
+ *  request counter crashes 60,800 → 3,044 (diet-scenario math, verified
+ *  against the Diet section defaults). What the product DOES, in one look. */
 function HeroOrb() {
-  const [n, setN] = useState(79200)
+  const [n, setN] = useState(60800)
   useEffect(() => {
     let raf
     const t0 = performance.now() + 900
     const tick = (now) => {
       const t = Math.min(1, Math.max(0, (now - t0) / 2200))
       const e = 1 - Math.pow(1 - t, 3)
-      setN(Math.round(79200 - (79200 - 176) * e))
+      setN(Math.round(60800 - (60800 - 3044) * e))
       if (t < 1) raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [])
-  const done = n <= 200
+  const done = n <= 4000
   return (
     <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 1, ease: [0.2, 0.8, 0.2, 1] }}
       className="hero-orb" style={{ position: 'relative', height: 520, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18 }}>
       <div style={{ textAlign: 'left' }}>
-        <div className="mono" style={{ fontSize: 13, letterSpacing: '.14em', color: 'var(--fg-3)', textTransform: 'uppercase' }}>tokens in context</div>
+        <div className="mono" style={{ fontSize: 13, letterSpacing: '.14em', color: 'var(--fg-3)', textTransform: 'uppercase' }}>tokens per request</div>
         <div className="mono" style={{ fontSize: 54, fontWeight: 800, letterSpacing: '-.04em', lineHeight: 1.1, color: done ? 'var(--cyan)' : '#fff', fontVariantNumeric: 'tabular-nums', transition: 'color .6s' }}>{n.toLocaleString('en-US')}</div>
-        <div className="mono" style={{ fontSize: 12, color: done ? 'var(--cyan)' : 'var(--fg-3)' }}>{done ? '−99.9% · capsule injected' : 'naive prompt · everything pasted'}</div>
+        <div className="mono" style={{ fontSize: 12, color: done ? 'var(--cyan)' : 'var(--fg-3)' }}>{done ? '−95.0% · hook + gateway' : 'naive prompt · everything pasted'}</div>
       </div>
       <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         className="card" style={{ borderRadius: 14, overflow: 'hidden' }}>
@@ -113,7 +114,7 @@ function HeroOrb() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
                 <span className="mono" style={{ fontSize: 11, color: 'var(--cyan)', letterSpacing: '.06em' }}>subconscious capsule</span>
-                <span className="pill cyan" style={{ marginLeft: 'auto' }}>176 / 200 tokens</span>
+                <span className="pill cyan" style={{ marginLeft: 'auto' }}>≈190 / 200 tokens</span>
               </div>
               <div style={{ fontSize: 12, color: '#cfe3ee', lineHeight: 1.65 }}>• thread: WAL retry path · BEGIN IMMEDIATE + jittered retry<br />• dialogue: “busy timeout?” → 5000 ms, core/db.py<br />• skill: genesis run -- pytest (conf 0.92)</div>
             </motion.div>

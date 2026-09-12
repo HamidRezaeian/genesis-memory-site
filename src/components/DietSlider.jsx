@@ -4,8 +4,8 @@ import { Holo, SectionHead, Reveal } from './ui'
 import { useCounter, fmt } from '../lib/hooks'
 
 /**
- * Prompt Diet — the subconscious hook injects a bounded capsule (≤200 tokens; 176 in
- * the reference run) instead of the entire memory store. Drag the slider to change
+ * Prompt Diet — the subconscious hook injects a bounded capsule (≤200 tokens;
+ * ~190 measured on the reference workload) instead of the entire memory store. Drag the slider to change
  * how much history/tool-output the agent *would* have carried and watch the proxy's
  * structural compaction + the hook's budget hold the line.
  */
@@ -17,7 +17,7 @@ const CAPSULE = [
   ['memory', '• [Memory #17 - fact]: Proxy gateway listens on 127.0.0.1:8000 and compacts tool outputs'],
   ['directive', '• [Recall rule]: when the user refers to prior work, call recall() before answering.'],
 ]
-const CAPSULE_TOKENS = 176
+const CAPSULE_TOKENS = 190 // measured reference value, test-pinned ≤200
 const BUDGET = 200
 
 export default function DietSlider() {
@@ -36,7 +36,7 @@ export default function DietSlider() {
   return (
     <section id="diet" className="section">
       <div className="wrap">
-        <SectionHead eyebrow="Subconscious Prompt Diet" tone="emerald" title="Every prompt starts already knowing —" grad="in 176 tokens." lead="The pre-invocation hook distills your whole memory store into a strict ≤200-token capsule: the active thread, the last cross-client dialogue turn, matching skills, top engrams and one recall directive. The stateless gateway then collapses history and replaces tool payloads with pointers. Drag to see the diet hold under load." />
+        <SectionHead eyebrow="Subconscious Prompt Diet" tone="emerald" title="Every prompt starts already knowing —" grad="in under 200 tokens." lead="The pre-invocation hook distills your whole memory store into a strictly budgeted capsule (~190 tokens measured on the reference workload, never over 200): the active thread, the last cross-client dialogue turn, matching skills, top engrams and one recall directive. The stateless gateway then collapses history and replaces tool payloads with pointers. Drag to see the diet hold under load." />
         <div className="grid" style={{ gridTemplateColumns: 'minmax(0,.9fr) minmax(0,1.1fr)', marginTop: 44, alignItems: 'stretch' }}>
           <Reveal>
             <Holo tilt={false} style={{ height: '100%' }}>
@@ -51,7 +51,7 @@ export default function DietSlider() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--fg-3)', marginBottom: 8 }}><span>prompt anatomy after diet</span><span className="mono" style={{ color: 'var(--cyan)' }}>−{pctC.toFixed(1)}%</span></div>
                   <div style={{ display: 'flex', height: 28, borderRadius: 8, overflow: 'hidden', gap: 2 }}>
                     <Seg w={(900 + 1450) / after} c="var(--cyan)" label="current turn" />
-                    <Seg w={CAPSULE_TOKENS / after} c="#e8eef4" label="capsule 176" />
+                    <Seg w={CAPSULE_TOKENS / after} c="#e8eef4" label="capsule ~190" />
                     <Seg w={(toolCalls * 84) / after} c="#8e9cae" label={`${toolCalls} pointer${toolCalls > 1 ? 's' : ''}`} />
                   </div>
                   <div className="mono" style={{ fontSize: 10.5, color: 'var(--fg-3)', marginTop: 6 }}>capsule ← pre-invocation hook · pointers + collapsed history ← stateless gateway</div>
@@ -67,7 +67,7 @@ export default function DietSlider() {
             <div className="term" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <div className="bar"><i /><i /><i /><span>subconscious_hook.py --raw · injected before every prompt</span><span className="pill cyan" style={{ marginLeft: 'auto' }}>{CAPSULE_TOKENS} / {BUDGET} tokens</span></div>
               <div className="body" style={{ flex: 1 }}>
-                <div className="dim">[GENESIS Subconscious Memory | Live Telemetry: 6 engrams • {CAPSULE_TOKENS} tokens • ↓ 99.2% payload vs {fmt.int(21_480)} tok DB]:</div>
+                <div className="dim">[GENESIS Subconscious Memory | Live Telemetry: 6 engrams • ≈{CAPSULE_TOKENS} tokens · hard budget {BUDGET}]:</div>
                 <AnimatePresence>{CAPSULE.map(([k, t], i) => (
                   <motion.div key={k + i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 + i * 0.12 }} style={{ marginTop: 8, display: 'flex', gap: 8 }}>
                     <span className={`pill ${k === 'thread' ? 'cyan' : ''}`} style={{ alignSelf: 'flex-start', flex: 'none' }}>{k}</span>
