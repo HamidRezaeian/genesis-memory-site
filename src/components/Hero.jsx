@@ -76,7 +76,8 @@ export default function Hero() {
   )
 }
 
-/** Floating holographic "engram" chips orbiting a nucleus — pure CSS/Framer, radius scales with the column. */
+/** Floating holographic "engram" chips on fixed orbit slots — pure CSS/Framer.
+ *  Slots never collide; depth (scale/opacity) fakes 3D; nucleus glows layered. */
 function HeroOrb() {
   const ref = useRef(null)
   const [w, setW] = useState(480)
@@ -86,30 +87,41 @@ function HeroOrb() {
     return () => ro.disconnect()
   }, [])
   const chips = [
-    ['decision', 'Use WAL + busy_timeout', 'fg'], ['fact', 'Proxy listens on :8000', 'fg'], ['outcome', '472 tests green', 'fg'],
-    ['skill', 'genesis run -- pytest', 'fg'], ['fact', 'Zed → context_servers', 'fg'], ['decision', 'Redact first', 'fg'],
+    ['decision', 'Use WAL + busy_timeout'], ['fact', 'Proxy listens on :8000'],
+    ['outcome', '472 tests green'], ['skill', 'genesis run -- pytest'],
+    ['fact', 'Zed → context_servers'], ['decision', 'Redact first'],
   ]
-  const rOuter = Math.max(170, w * 0.4), rInner = Math.max(125, w * 0.29)
+  // Fixed angular slots (deg) alternating outer/inner ring — no drift collisions.
+  const slots = [-90, -28, 34, 92, 152, 212]
+  const rOuter = Math.max(185, w * 0.42), rInner = Math.max(132, w * 0.3)
   return (
     <motion.div ref={ref} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6, duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
-      className="hero-orb" style={{ position: 'relative', height: 520, display: 'grid', placeItems: 'center' }}>
+      className="hero-orb" style={{ position: 'relative', height: 540, display: 'grid', placeItems: 'center' }}>
       <div style={{ position: 'absolute', width: rInner * 2, height: rInner * 2, borderRadius: '50%', border: '1px dashed rgba(0,240,255,.18)', animation: 'spin 60s linear infinite' }} />
       <div style={{ position: 'absolute', width: rOuter * 2, height: rOuter * 2, borderRadius: '50%', border: '1px dashed rgba(0,240,255,.1)', animation: 'spin 90s linear infinite reverse' }} />
-      <motion.div animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ width: 150, height: 150, borderRadius: '50%', background: 'radial-gradient(circle at 38% 36%, #fff 0%, var(--cyan) 18%, rgba(0,240,255,.35) 45%, rgba(0,240,255,0) 70%)', boxShadow: '0 0 80px rgba(0,240,255,.55), 0 0 200px rgba(0,240,255,.2)', position: 'relative' }}>
-        <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.18em', color: '#001317', fontWeight: 700 }}>memory.db</div>
+      <div style={{ position: 'absolute', width: rOuter * 2 + 44, height: rOuter * 2 + 44, borderRadius: '50%', border: '1px solid rgba(255,255,255,.05)' }} />
+      <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ width: 148, height: 148, borderRadius: '50%', background: 'radial-gradient(circle at 38% 34%, #fff 0%, #bffbff 12%, var(--cyan) 30%, rgba(0,150,170,.55) 58%, rgba(0,20,25,0) 72%)', boxShadow: '0 0 70px rgba(0,240,255,.5), 0 0 190px rgba(0,240,255,.18), inset -14px -18px 44px rgba(0,40,48,.55)', position: 'relative' }}>
+        <div style={{ position: 'absolute', left: 30, top: 22, width: 26, height: 16, borderRadius: '50%', background: 'rgba(255,255,255,.85)', filter: 'blur(7px)', transform: 'rotate(-24deg)' }} />
       </motion.div>
-      {chips.map(([kind, text, tone], i) => {
-        const a = (i / chips.length) * Math.PI * 2
-        const r = i % 2 ? rOuter : rInner
-        const cw = 110 // approx half chip width so chips stay centred on their orbit point
+      <div style={{ position: 'absolute', top: '50%', marginTop: 86, textAlign: 'center' }}>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '.18em', color: '#fff', fontWeight: 700 }}>memory.db</div>
+        <div className="mono" style={{ fontSize: 10, letterSpacing: '.1em', color: 'var(--fg-3)', marginTop: 3 }}>SQLite · WAL · shared</div>
+      </div>
+      {chips.map(([kind, text], i) => {
+        const a = slots[i] * Math.PI / 180
+        const r = i % 2 ? rInner : rOuter
+        const depth = (Math.sin(a) + 1) / 2 // 0 back → 1 front
+        const x0 = Math.cos(a) * r, y0 = Math.sin(a) * r * 0.72
         return (
-          <motion.div key={i} className="pill" style={{ position: 'absolute', left: '50%', top: '50%', background: 'rgba(5,7,11,.85)', backdropFilter: 'blur(8px)', padding: '7px 12px', fontSize: 12, gap: 8, borderColor: `color-mix(in srgb, var(--${tone}) 45%, transparent)`, boxShadow: `0 10px 30px -10px color-mix(in srgb, var(--${tone}) 60%, transparent)` }}
-            animate={{ x: [Math.cos(a) * r - cw, Math.cos(a + 0.18) * r - cw, Math.cos(a) * r - cw], y: [Math.sin(a) * r * 0.75 - 16, Math.sin(a + 0.18) * r * 0.75 - 16, Math.sin(a) * r * 0.75 - 16] }}
-            transition={{ duration: 9 + i * 1.3, repeat: Infinity, ease: 'easeInOut' }}>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: `var(--${tone})`, boxShadow: `0 0 10px var(--${tone})` }} />
-            <span style={{ color: `var(--${tone})` }}>{kind}</span>
-            <span style={{ color: 'var(--fg-2)' }}>{text}</span>
+          <motion.div key={i} className="pill"
+            initial={{ opacity: 0 }} animate={{ opacity: 0.6 + depth * 0.4, x: [x0, x0 + 5, x0], y: [y0, y0 - 6, y0], scale: 0.88 + depth * 0.12 }}
+            transition={{ opacity: { delay: 0.9 + i * 0.12, duration: 0.6 }, x: { duration: 6 + i * 0.9, repeat: Infinity, ease: 'easeInOut' }, y: { duration: 6 + i * 0.9, repeat: Infinity, ease: 'easeInOut' }, scale: { duration: 0.5 } }}
+            whileHover={{ scale: 1.06, borderColor: 'rgba(0,240,255,.55)', boxShadow: '0 14px 44px -12px rgba(0,240,255,.5)' }}
+            style={{ position: 'absolute', left: '50%', top: '50%', marginLeft: -110, marginTop: -15, width: 220, background: 'linear-gradient(180deg, rgba(16,24,34,.92), rgba(6,10,15,.88))', backdropFilter: 'blur(10px)', padding: '9px 13px', fontSize: 12, zIndex: Math.round(depth * 10), borderColor: 'rgba(255,255,255,.1)', boxShadow: '0 12px 34px -14px rgba(0,0,0,.9)' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', boxShadow: '0 0 8px rgba(255,255,255,.8)', flex: 'none' }} />
+            <span className="mono" style={{ color: 'var(--fg-3)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '.1em', flex: 'none' }}>{kind}</span>
+            <span style={{ color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{text}</span>
           </motion.div>
         )
       })}
