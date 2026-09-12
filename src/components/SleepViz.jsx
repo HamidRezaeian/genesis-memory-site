@@ -37,7 +37,7 @@ export default function SleepViz() {
   // Feedback for the reinforce button: which engram flashed + what changed.
   const flash = useRef({ i: -1, t: 0 })
   const [lastBoost, setLastBoost] = useState(null)
-  const engrams = useRef(Array.from({ length: 22 }, (_, i) => ({ age: Math.random() * 40, tau: [7, 7, 7, 14, 14, 30, 90][i % 7], tone: ['cyan', 'violet', 'emerald'][i % 3], speed: 0.6 + Math.random() })))
+  const engrams = useRef(Array.from({ length: 22 }, (_, i) => ({ age: Math.random() * 25, tau: [7, 14, 14, 30, 30, 90, 90][i % 7], tone: ['cyan', 'violet', 'emerald'][i % 3], speed: 1 + Math.random() * 1.6 })))
 
   useEffect(() => {
     const id = setInterval(() => setPhase(p => (p + 1) % PHASES.length), 3400)
@@ -96,6 +96,15 @@ export default function SleepViz() {
     setLastBoost({ from, to: e.tau })
     setReinforced(r => r + 1)
   }
+  // Auto-demo: reinforce on its own every few seconds until the user
+  // takes over — the mechanic should be visible without any click.
+  const autoRef = useRef(true)
+  useEffect(() => {
+    const id = setInterval(() => { if (autoRef.current) reinforce() }, 3500)
+    return () => clearInterval(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const manualReinforce = () => { autoRef.current = false; reinforce() }
 
   return (
     <section id="sleep" className="section">
@@ -112,7 +121,7 @@ export default function SleepViz() {
                   </span>))}
               </div>
               <div style={{ position: 'absolute', right: 14, top: 12, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
-                <button className="btn sm primary" onClick={reinforce}>▲ reinforce{reinforced ? ` · ${reinforced}` : ' a random engram'}</button>
+                <button className="btn sm primary" onClick={manualReinforce}>▲ reinforce{reinforced ? ` · ${reinforced}` : ' a random engram'}</button>
                 <AnimatePresence>{lastBoost && (
                   <motion.span key={`${reinforced}`} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mono" style={{ fontSize: 11, color: 'var(--cyan)', background: 'rgba(5,7,11,.8)', border: '1px solid rgba(0,240,255,.3)', borderRadius: 8, padding: '3px 9px' }}>
                     τ {lastBoost.from}d → {lastBoost.to}d · synapse strengthened
