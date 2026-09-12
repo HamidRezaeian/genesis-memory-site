@@ -76,56 +76,52 @@ export default function Hero() {
   )
 }
 
-/** Floating holographic "engram" chips on fixed orbit slots — pure CSS/Framer.
- *  Slots never collide; depth (scale/opacity) fakes 3D; nucleus glows layered. */
+/** Hero visual: the product's signature mechanic, not decoration.
+ *  A glowing subconscious capsule slides into a live prompt while the
+ *  context counter crashes 79,200 → 176. What the product DOES, in one look. */
 function HeroOrb() {
-  const ref = useRef(null)
-  const [w, setW] = useState(480)
+  const [n, setN] = useState(79200)
   useEffect(() => {
-    const el = ref.current; if (!el) return
-    const ro = new ResizeObserver(([e]) => setW(e.contentRect.width)); ro.observe(el)
-    return () => ro.disconnect()
+    let raf
+    const t0 = performance.now() + 900
+    const tick = (now) => {
+      const t = Math.min(1, Math.max(0, (now - t0) / 2200))
+      const e = 1 - Math.pow(1 - t, 3)
+      setN(Math.round(79200 - (79200 - 176) * e))
+      if (t < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [])
-  const chips = [
-    ['decision', 'Use WAL + busy_timeout'], ['fact', 'Proxy listens on :8000'],
-    ['outcome', '472 tests green'], ['skill', 'genesis run -- pytest'],
-    ['fact', 'Zed → context_servers'], ['decision', 'Redact first'],
-  ]
-  // Fixed angular slots (deg) alternating outer/inner ring — no drift collisions.
-  const slots = [-90, -28, 34, 92, 152, 212]
-  const rOuter = Math.max(185, w * 0.42), rInner = Math.max(132, w * 0.3)
+  const done = n <= 200
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6, duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
-      className="hero-orb" style={{ position: 'relative', height: 540, display: 'grid', placeItems: 'center' }}>
-      <div style={{ position: 'absolute', width: rInner * 2, height: rInner * 2, borderRadius: '50%', border: '1px dashed rgba(0,240,255,.18)', animation: 'spin 60s linear infinite' }} />
-      <div style={{ position: 'absolute', width: rOuter * 2, height: rOuter * 2, borderRadius: '50%', border: '1px dashed rgba(0,240,255,.1)', animation: 'spin 90s linear infinite reverse' }} />
-      <div style={{ position: 'absolute', width: rOuter * 2 + 44, height: rOuter * 2 + 44, borderRadius: '50%', border: '1px solid rgba(255,255,255,.05)' }} />
-      <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ width: 148, height: 148, borderRadius: '50%', background: 'radial-gradient(circle at 38% 34%, #fff 0%, #bffbff 12%, var(--cyan) 30%, rgba(0,150,170,.55) 58%, rgba(0,20,25,0) 72%)', boxShadow: '0 0 70px rgba(0,240,255,.5), 0 0 190px rgba(0,240,255,.18), inset -14px -18px 44px rgba(0,40,48,.55)', position: 'relative' }}>
-        <div style={{ position: 'absolute', left: 30, top: 22, width: 26, height: 16, borderRadius: '50%', background: 'rgba(255,255,255,.85)', filter: 'blur(7px)', transform: 'rotate(-24deg)' }} />
-      </motion.div>
-      <div style={{ position: 'absolute', top: '50%', marginTop: 86, textAlign: 'center' }}>
-        <div className="mono" style={{ fontSize: 12, letterSpacing: '.18em', color: '#fff', fontWeight: 700 }}>memory.db</div>
-        <div className="mono" style={{ fontSize: 10, letterSpacing: '.1em', color: 'var(--fg-3)', marginTop: 3 }}>SQLite · WAL · shared</div>
+    <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 1, ease: [0.2, 0.8, 0.2, 1] }}
+      className="hero-orb" style={{ position: 'relative', height: 520, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18 }}>
+      <div style={{ textAlign: 'left' }}>
+        <div className="mono" style={{ fontSize: 13, letterSpacing: '.14em', color: 'var(--fg-3)', textTransform: 'uppercase' }}>tokens in context</div>
+        <div className="mono" style={{ fontSize: 54, fontWeight: 800, letterSpacing: '-.04em', lineHeight: 1.1, color: done ? 'var(--cyan)' : '#fff', fontVariantNumeric: 'tabular-nums', transition: 'color .6s' }}>{n.toLocaleString('en-US')}</div>
+        <div className="mono" style={{ fontSize: 12, color: done ? 'var(--cyan)' : 'var(--fg-3)' }}>{done ? '−99.9% · capsule injected' : 'naive prompt · everything pasted'}</div>
       </div>
-      {chips.map(([kind, text], i) => {
-        const a = slots[i] * Math.PI / 180
-        const r = i % 2 ? rInner : rOuter
-        const depth = (Math.sin(a) + 1) / 2 // 0 back → 1 front
-        const x0 = Math.cos(a) * r, y0 = Math.sin(a) * r * 0.72
-        return (
-          <motion.div key={i} className="pill"
-            initial={{ opacity: 0 }} animate={{ opacity: 0.6 + depth * 0.4, x: [x0, x0 + 5, x0], y: [y0, y0 - 6, y0], scale: 0.88 + depth * 0.12 }}
-            transition={{ opacity: { delay: 0.9 + i * 0.12, duration: 0.6 }, x: { duration: 6 + i * 0.9, repeat: Infinity, ease: 'easeInOut' }, y: { duration: 6 + i * 0.9, repeat: Infinity, ease: 'easeInOut' }, scale: { duration: 0.5 } }}
-            whileHover={{ scale: 1.06, borderColor: 'rgba(0,240,255,.55)', boxShadow: '0 14px 44px -12px rgba(0,240,255,.5)' }}
-            style={{ position: 'absolute', left: '50%', top: '50%', marginLeft: -110, marginTop: -15, width: 220, background: 'linear-gradient(180deg, rgba(16,24,34,.92), rgba(6,10,15,.88))', backdropFilter: 'blur(10px)', padding: '9px 13px', fontSize: 12, zIndex: Math.round(depth * 10), borderColor: 'rgba(255,255,255,.1)', boxShadow: '0 12px 34px -14px rgba(0,0,0,.9)' }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', boxShadow: '0 0 8px rgba(255,255,255,.8)', flex: 'none' }} />
-            <span className="mono" style={{ color: 'var(--fg-3)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '.1em', flex: 'none' }}>{kind}</span>
-            <span style={{ color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{text}</span>
-          </motion.div>
-        )
-      })}
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}} @media (max-width: 1100px){ .hero-orb{display:none!important} .hero-grid{grid-template-columns:1fr!important} }`}</style>
+      <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        className="card" style={{ borderRadius: 14, overflow: 'hidden' }}>
+        <div className="term" style={{ border: 0, borderRadius: 0, boxShadow: 'none' }}>
+          <div className="bar"><i /><i /><i /><span>prompt · last turn · cursor</span></div>
+          <div className="body">
+            <div className="dim">… 14 turns of history, 2,200 lines of tool output …</div>
+            <motion.div animate={{ boxShadow: ['0 0 0px rgba(0,240,255,0)', '0 0 34px rgba(0,240,255,.35)', '0 0 0px rgba(0,240,255,0)'] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ marginTop: 10, border: '1px solid rgba(0,240,255,.45)', borderRadius: 10, background: 'rgba(0,240,255,.05)', padding: '10px 12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
+                <span className="mono" style={{ fontSize: 11, color: 'var(--cyan)', letterSpacing: '.06em' }}>subconscious capsule</span>
+                <span className="pill cyan" style={{ marginLeft: 'auto' }}>176 / 200 tokens</span>
+              </div>
+              <div style={{ fontSize: 12, color: '#cfe3ee', lineHeight: 1.65 }}>• thread: WAL retry path · BEGIN IMMEDIATE + jittered retry<br />• dialogue: “busy timeout?” → 5000 ms, core/db.py<br />• skill: genesis run -- pytest (conf 0.92)</div>
+            </motion.div>
+            <div style={{ marginTop: 10 }}><span className="cy">$</span> fix the WAL retry path<span className="caret" style={{ marginLeft: 6 }} /></div>
+          </div>
+        </div>
+      </motion.div>
+      <style>{`@media (max-width: 1100px){ .hero-orb{display:none!important} .hero-grid{grid-template-columns:1fr!important} }`}</style>
     </motion.div>
   )
 }
