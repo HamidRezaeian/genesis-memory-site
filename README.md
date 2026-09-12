@@ -1,4 +1,8 @@
-# GENESIS Memory — landing page
+# GENESIS Memory — landing page (public)
+
+Marketing-only repo: no product source lives here. Live at
+https://hamidrezaeian.github.io/genesis-memory-site/ (GitHub Pages, auto-deploys
+on push to main via `.github/workflows/deploy_site.yml`).
 
 React 19 · Vite 7 · Framer Motion 12. Every capability on the page is a working simulator
 (spool collapse, prompt-diet slider, privacy-shield sandbox running the real detector port,

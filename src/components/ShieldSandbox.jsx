@@ -10,7 +10,7 @@ SLACK_BOT=${'xox' + 'b-2934812-ab7Ff92kLm3Pq'}
 deploy token: Q9zX7pL2mN4vB8kR1tY6wE3uI0oP5aS9
 # benign lines stay byte-identical
 git commit ee98d3ed628aae3f221b7aea3020f49f8f1784f5abbdf0fb50a09fd1d8d6e834 fixed the WAL retry path
-see https://github.com/HamidRezaeian/genesis-memory/blob/main/README.md`
+see https://pypi.org/project/genesis-memory/`
 
 export default function ShieldSandbox() {
   const [text, setText] = useState(SAMPLE)

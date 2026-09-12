@@ -25,9 +25,9 @@ export default function Nav() {
           {LINKS.map(([l, h]) => <a key={h} href={h} className="btn ghost sm">{l}</a>)}
         </nav>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <a className="btn ghost sm" href="https://github.com/HamidRezaeian/genesis-memory" target="_blank" rel="noreferrer" style={{ gap: 8 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" /></svg>
-            GitHub
+          <a className="btn ghost sm" href="https://pypi.org/project/genesis-memory/" target="_blank" rel="noreferrer" style={{ gap: 8 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z" /><path d="M3.3 8.3L12 13l8.7-4.7" /><path d="M12 13v9" /></svg>
+            PyPI
           </a>
           <Magnetic strength={0.25}><a className="btn primary sm" href="#setup">genesis setup</a></Magnetic>
           <button className="btn ghost sm menu-btn" onClick={() => setOpen(v => !v)} aria-label="menu" style={{ display: 'none' }}>☰</button>

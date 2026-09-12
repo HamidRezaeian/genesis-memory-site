@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Holo, SectionHead, Reveal, Magnetic, Arrow } from './ui'
 
 const TIERS = [
-  { name: 'Community', price: [0, 0], tone: 'fg', tag: 'Free & open source', cta: 'pip install genesis-memory', href: 'https://github.com/HamidRezaeian/genesis-memory',
+  { name: 'Community', price: [0, 0], tone: 'fg', tag: 'Free & open source', cta: 'pip install genesis-memory', href: 'https://pypi.org/project/genesis-memory/',
     feats: ['Local SQLite memory (WAL, 5000 ms busy timeout)', 'Subconscious 200-token hook', 'Lossless headless spooling (60+ toolchains)', 'Universal 1-click setup · 20 clients', 'Zero-trust privacy shield', 'Stdio MCP server · 19 tools', 'High-ratio structural compactor', 'Hebbian sleep distillation & skills', 'Live pricing · dollars saved', 'OpenAI + Anthropic gateway routes'] },
   { name: 'Developer Pro', price: [14, 12], tone: 'cyan', tag: 'Most popular', hot: true, cta: 'Start Pro', href: '#',
     feats: ['Everything in Community', 'Mission Control dashboard', 'License entitlements + priority token budget'] },
@@ -88,9 +88,9 @@ export function Footer() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 900, letterSpacing: '.16em', fontSize: 13 }}><span style={{ width: 20, height: 20, borderRadius: '50%', background: 'radial-gradient(circle at 35% 35%,#fff,var(--cyan) 35%,rgba(0,240,255,.15) 70%,transparent 72%)', boxShadow: '0 0 18px rgba(0,240,255,.7)' }} />GENESIS</div>
           <p style={{ color: 'var(--fg-3)', fontSize: 13, marginTop: 12, maxWidth: 360, lineHeight: 1.6 }}>The persistent brain and token diet for every AI coding agent. Local-first, stdlib-only, tested to the byte.</p>
-          <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}><span className="pill emerald">421/421 tests</span><span className="pill cyan">MIT</span><span className="pill">python ≥ 3.10</span></div>
+          <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}><span className="pill emerald">445 tests green</span><span className="pill cyan">BSL · MIT core soon</span><span className="pill">python ≥ 3.10</span></div>
         </div>
-        {[['Product', ['Token Diet#diet', 'Spooling#spool', 'Privacy Shield#shield', 'Conduit#conduit', 'Sleep#sleep', 'Pricing#pricing']], ['Clients', ['Cursor#setup', 'Claude Code#setup', 'VS Code#setup', 'Zed#setup', 'JetBrains#setup', 'Neovim & Emacs#setup']], ['Resources', ['GitHub|https://github.com/HamidRezaeian/genesis-memory', 'README|https://github.com/HamidRezaeian/genesis-memory#readme', 'Architecture|https://github.com/HamidRezaeian/genesis-memory/blob/main/docs/ARCHITECTURE.md', 'MCP Spec|https://github.com/HamidRezaeian/genesis-memory/blob/main/docs/MCP_SPEC.md', 'Changelog|https://github.com/HamidRezaeian/genesis-memory/blob/main/RELEASE_CHANGELOG.md']]].map(([h, items]) => (
+          {[['Product', ['Token Diet#diet', 'Spooling#spool', 'Privacy Shield#shield', 'Conduit#conduit', 'Sleep#sleep', 'Pricing#pricing']], ['Clients', ['Cursor#setup', 'Claude Code#setup', 'VS Code#setup', 'Zed#setup', 'JetBrains#setup', 'Neovim & Emacs#setup']], ['Resources', ['PyPI|https://pypi.org/project/genesis-memory/']]].map(([h, items]) => (
           <div key={h}><div style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 12 }}>{h}</div>
             <div style={{ display: 'grid', gap: 8 }}>{items.map(it => { const [l, href] = it.includes('|') ? it.split('|') : it.split('#').length > 1 ? [it.split('#')[0], '#' + it.split('#')[1]] : [it, '#']; return <a key={it} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" style={{ color: 'var(--fg-2)', fontSize: 13.5 }}>{l}</a> })}</div></div>))}
       </div>

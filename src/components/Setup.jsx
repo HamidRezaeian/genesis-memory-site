@@ -98,7 +98,7 @@ export default function Setup() {
           </Reveal>
         </div>
         <Reveal style={{ marginTop: 28, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Magnetic><a className="btn primary" href="https://github.com/HamidRezaeian/genesis-memory#quick-start" target="_blank" rel="noreferrer">Install GENESIS <Arrow /></a></Magnetic>
+          <Magnetic><a className="btn primary" href="https://pypi.org/project/genesis-memory/" target="_blank" rel="noreferrer">Install GENESIS <Arrow /></a></Magnetic>
           <span className="pill">pip install genesis-memory</span><span className="pill">genesis setup --preview</span><span className="pill">genesis clients --json</span>
         </Reveal>
       </div>
