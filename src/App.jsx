@@ -4,6 +4,7 @@ import Nav from './components/Nav'
 import Hero from './components/Hero'
 import SpoolDemo from './components/SpoolDemo'
 import DietSlider from './components/DietSlider'
+import OutputDiet from './components/OutputDiet'
 import ShieldSandbox from './components/ShieldSandbox'
 import Conduit from './components/Conduit'
 import SleepViz from './components/SleepViz'
@@ -54,6 +55,7 @@ export default function App() {
         <Hero />
         <SpoolDemo />
         <DietSlider />
+        <OutputDiet />
         <ShieldSandbox />
         <Conduit />
         <SleepViz />
