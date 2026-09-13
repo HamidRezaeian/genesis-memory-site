@@ -11,13 +11,13 @@ import { Holo, SectionHead, Reveal } from './ui'
 const CARDS = [
   {
     t: 'Terse by default',
-    d: 'GENESIS_OUTPUT_DIET=1 injects one static, cache-friendly directive; =auto additionally yields the moment you ask for depth — in English or Persian. An explicit ask always wins over brevity.',
+    d: 'GENESIS_OUTPUT_DIET=1 injects one static, cache-friendly directive; =auto additionally yields the moment you ask for depth in natural language. An explicit ask always wins over brevity.',
     tag: 'GENESIS_OUTPUT_DIET=auto',
   },
   {
     t: 'Budgets by turn shape',
-    d: 'Acknowledgments ("thanks", "ok", "ممنون") can never need an essay: they are capped at 256 completion tokens. Anything unrecognized stays a standard turn, and a caller-set max_tokens is never touched.',
-    tag: '256 · allowlist only',
+    d: 'Short acknowledgments and trivial turns can never need an essay: they are structurally bounded at 256 completion tokens. Anything unrecognized stays a standard turn, and a caller-set max_tokens is never touched.',
+    tag: '256 · structural cap',
   },
   {
     t: 'Diffs, not pastes',
