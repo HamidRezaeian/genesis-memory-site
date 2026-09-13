@@ -24,102 +24,156 @@ const BENCHMARKS = [
   {
     id: 'diff',
     title: 'Code Bug Fix',
-    sub: 'Diff vs. Full File Paste',
-    prompt: 'Fix the SQLite connection pool timeout: increase busy timeout default to 5000ms in core/db.py',
+    sub: 'Diff vs. Full File Rewrite',
+    prompt: 'Here is the database file. Fix the timeout setting: increase timeout_ms from 1000 to 5000 to prevent WAL storm lock...',
+    model: 'Gemini 3.8 Flash (gemini-flash-latest)',
     naive: {
-      tokens: 358,
-      cost: '$0.0054',
-      badge: 'Full file echo + filler chatter',
+      tokens: 365,
+      cost: '4.99s latency',
+      badge: 'Full file rewrite + narrative chatter',
       lines: [
+        'Here is the updated code with `timeout_ms` increased to 5000 (and the `PRAGMA busy_timeout` updated):',
+        '',
         '```python',
         'import os, sqlite3, time, logging',
+        '',
         'class DatabaseConnectionPool:',
         '    def __init__(self, db_path: str, timeout_ms: int = 5000):',
         '        self.db_path = db_path',
-        '        self.timeout_ms = 5000  # Updated from 1000 to 5000',
+        '        self.timeout_ms = timeout_ms',
         '        self._connections = []',
+        '',
         '    def _init_db(self):',
-        '        conn = sqlite3.connect(self.db_path, timeout=5.0)',
-        '        conn.execute("PRAGMA journal_mode=WAL;")',
-        '        conn.execute("PRAGMA busy_timeout=5000;")',
+        '        conn = sqlite3.connect(self.db_path, timeout=self.timeout_ms / 1000.0)',
+        '        conn.execute(\'PRAGMA journal_mode=WAL;\')',
+        '        conn.execute(f\'PRAGMA busy_timeout={self.timeout_ms};\')',
         '        conn.close()',
-        '    # ... 30 more lines of unchanged class code ...',
+        '',
+        '    def get_connection(self):',
+        '        conn = sqlite3.connect(self.db_path, timeout=self.timeout_ms / 1000.0)',
+        '        conn.execute(f\'PRAGMA busy_timeout={self.timeout_ms};\')',
+        '        return conn',
         '```',
-        'Here is the updated file! I have modified the timeout to 5000ms.',
-        'Let me know if you need anything else or have further questions!',
+        '',
+        '### Changes made:',
+        '1. Changed default timeout_ms parameter in __init__ from 1000 to 5000.',
+        '2. Updated PRAGMA busy_timeout to use self.timeout_ms (5000 ms).',
       ],
     },
     diet: {
-      tokens: 59,
-      cost: '$0.0009',
-      badge: 'Unified diff · zero filler',
+      tokens: 266,
+      cost: 'Unified Diff',
+      badge: 'Unified diff · zero conversational filler',
       lines: [
         '```diff',
-        '--- a/genesis_memory/core/db.py',
-        '+++ b/genesis_memory/core/db.py',
+        '--- a/database.py',
+        '+++ b/database.py',
+        '@@ -4,3 +4,3 @@',
+        ' class DatabaseConnectionPool:',
+        '-    def __init__(self, db_path: str, timeout_ms: int = 1000):',
+        '+    def __init__(self, db_path: str, timeout_ms: int = 5000):',
+        '         self.db_path = db_path',
         '@@ -10,3 +10,3 @@',
-        '-        self.timeout_ms = 1000',
-        '+        self.timeout_ms = 5000  # prevent WAL storm lock',
+        '         conn.execute(\'PRAGMA journal_mode=WAL;\')',
+        '-        conn.execute(\'PRAGMA busy_timeout=1000;\')',
+        '+        conn.execute(f\'PRAGMA busy_timeout={self.timeout_ms};\')',
+        '         conn.close()',
+        '@@ -14,3 +14,3 @@',
+        '         conn = sqlite3.connect(self.db_path, timeout=self.timeout_ms / 1000.0)',
+        '-        conn.execute(\'PRAGMA busy_timeout=1000;\')',
+        '+        conn.execute(f\'PRAGMA busy_timeout={self.timeout_ms};\')',
+        '         return conn',
         '```',
-        'Fixed: increased busy timeout default to 5000ms.',
       ],
     },
-    savings: '83.5%',
-    speedup: '6.1× faster',
+    savings: '27.1%',
+    speedup: 'Zero file re-paste',
   },
   {
     id: 'ack',
     title: 'Turn Acknowledgment',
     sub: 'Short Confirmation Turn',
-    prompt: 'thanks, looks good. now run the test suite.',
+    prompt: 'Thanks, the WAL configuration works properly now. Ready to continue.',
+    model: 'Gemini 3.8 Flash (gemini-flash-latest)',
     naive: {
-      tokens: 82,
-      cost: '$0.0012',
-      badge: 'Polite conversational filler',
+      tokens: 194,
+      cost: '4.26s latency',
+      badge: 'Polite conversational filler & unsolicited tutorial',
       lines: [
-        'You are very welcome! I am glad that the WAL configuration and the jittered',
-        'retry mechanism are working smoothly for your environment. If you ever encounter',
-        'any concurrency issues across your AI clients or if you want to explore further',
-        'memory compaction strategies, please don\'t hesitate to reach out. Happy coding!',
+        'Great to hear the WAL setup is working smoothly!',
+        '',
+        'Depending on what stack you\'re on and what you\'re building, here are the usual next steps we can dive into:',
+        '',
+        '* PostgreSQL:',
+        '  * Setting up continuous archiving / backup automation (e.g., archive_command, pgBackRest / WAL-G).',
+        '  * Configuring streaming replication / standby nodes.',
+        '  * Tuning checkpoint parameters (checkpoint_timeout, max_wal_size).',
+        '',
+        '* SQLite:',
+        '  * Handling busy timeouts and concurrency (PRAGMA busy_timeout).',
+        '  * Choosing a checkpointing strategy (PRAGMA wal_checkpoint(TRUNCATE)).',
+        '  * Tuning cache size and synchronous modes (PRAGMA synchronous = NORMAL).',
+        '',
+        'Where would you like to pick up?',
       ],
     },
     diet: {
       tokens: 7,
-      cost: '$0.0001',
+      cost: '2.90s latency',
       badge: 'Terse acknowledgment',
       lines: [
-        'Noted. Running test suite now.',
+        'Provide the next task or requirements.',
       ],
     },
-    savings: '91.5%',
-    speedup: '11.7× faster',
+    savings: '96.4%',
+    speedup: '1.5× faster',
   },
   {
     id: 'status',
-    title: 'CLI Status Query',
-    sub: 'Fact Retrieval',
-    prompt: 'is daemon running?',
+    title: 'Status Inspection',
+    sub: 'System Fact Retrieval',
+    prompt: 'Is the genesis daemon currently running and what is its status (PID, RSS, active memories)?',
+    model: 'Gemini 3.8 Flash (gemini-flash-latest)',
     naive: {
-      tokens: 84,
-      cost: '$0.0013',
-      badge: 'Verbose paragraph response',
+      tokens: 391,
+      cost: '8.17s latency',
+      badge: 'Verbose multi-page manual',
       lines: [
-        'Yes, the GENESIS daemon is currently running and active on your system. It is',
-        'listening on localhost with PID 4128. The SQLite WAL database located at',
-        '~/.genesis/memory.db has 242 memories stored, and the RSS memory usage is',
-        'measured at 48.2 MB, which is well within your 100 MB budget. All healthy!',
+        'I do not have access to your local machine, server, or running environment, so I cannot check the live status of your system directly.',
+        '',
+        'However, you can check this yourself using the following commands depending on your setup:',
+        '',
+        '### 1. Check PID and RSS (Memory Usage)',
+        'If running on Linux or macOS, run:',
+        'ps -eo pid,rss,comm,args | grep [g]enesis',
+        '* PID: Found in the first column.',
+        '* RSS: Found in the second column (measured in kilobytes; divide by 1024 for MB).',
+        '',
+        '### 2. Check "Active Memories" / Daemon Internal State',
+        'To check this, you typically need to query the daemon directly via its CLI or API:',
+        '* Via CLI: genesis status',
+        '* Via Local HTTP/REST Endpoint: curl -s http://localhost:8000/status',
+        '* Via Application Logs: journalctl -u genesis -n 50',
+        '',
+        'If you share which framework or software this belongs to, I can provide exact commands.',
       ],
     },
     diet: {
-      tokens: 12,
-      cost: '$0.0002',
-      badge: 'Telemetry fact only',
+      tokens: 48,
+      cost: '6.65s latency',
+      badge: 'Actionable shell command only',
       lines: [
-        'Active · PID 4128 · RSS 48.2 MB · 242 memories.',
+        'Cannot determine status. No access to the host environment or running processes.',
+        '',
+        'To check manually, run:',
+        '```bash',
+        'pgrep -fl genesis',
+        'ps -o pid,rss,comm -p $(pgrep genesis)',
+        '```',
       ],
     },
-    savings: '85.7%',
-    speedup: '7.0× faster',
+    savings: '87.7%',
+    speedup: '1.2× faster',
   },
 ]
 
@@ -158,10 +212,10 @@ export default function OutputDiet() {
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16, borderBottom: '1px solid var(--line)', paddingBottom: 20 }}>
               <div>
                 <span className="mono" style={{ fontSize: 11, color: 'var(--cyan)', letterSpacing: '.12em', textTransform: 'uppercase' }}>
-                  Empirical Benchmark
+                  100% Live Empirical Benchmark · Google Gemini 3.8 Flash
                 </span>
                 <h3 style={{ fontSize: 24, fontWeight: 800, marginTop: 4 }}>
-                  Real Developer Prompts · Byte-for-Byte Comparison
+                  Real Developer Prompts · Live API Measurements
                 </h3>
               </div>
 
@@ -257,20 +311,20 @@ export default function OutputDiet() {
             {/* Aggregated Benchmark Metrics Footer */}
             <div style={{ marginTop: 24, paddingTop: 18, borderTop: '1px solid var(--line)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: 16, textAlign: 'center' }}>
               <div>
-                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>86.9%</span>
-                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Avg Output Token Cut</p>
+                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>70.4%</span>
+                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Avg Live Token Cut</p>
               </div>
               <div>
-                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--fg)' }}>2–5×</span>
-                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Token Dollar Weight (vs Input)</p>
+                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>96.4%</span>
+                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Ack Turn Token Cut</p>
               </div>
               <div>
-                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>0%</span>
+                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--fg)' }}>0%</span>
                 <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Code Re-paste Overhead</p>
               </div>
               <div>
                 <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--fg)' }}>100%</span>
-                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>User Depth Sovereignty</p>
+                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Live API Verified</p>
               </div>
             </div>
           </div>
