@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Holo, SectionHead, Reveal, Magnetic, Arrow } from './ui'
 
 const TIERS = [
-  { name: 'Community', price: [0, 0], tone: 'fg', tag: 'Free & open source', cta: 'pip install genesis-memory', href: 'https://pypi.org/project/genesis-memory/',
+  { name: 'Community', price: [0, 0], tone: 'cyan', tag: 'Available Now · Free', hot: true, cta: 'pip install genesis-memory', href: 'https://pypi.org/project/genesis-memory/',
     feats: ['Local SQLite memory (WAL, 5000 ms busy timeout)', 'Subconscious 200-token hook', 'Lossless headless spooling (60+ toolchains)', 'Universal 1-click setup · 20 clients', 'Zero-trust privacy shield', 'Stdio MCP server · 19 tools', 'High-ratio structural compactor', 'Hebbian sleep distillation & skills', 'Live pricing · dollars saved', 'OpenAI + Anthropic gateway routes'] },
-  { name: 'Developer Pro', price: [14, 12], tone: 'cyan', tag: 'Most popular', hot: true, cta: 'Start Pro', href: '#',
+  { name: 'Developer Pro', price: [14, 12], tone: 'amber', tag: 'Coming Soon', hot: false, comingSoon: true, cta: 'Coming Soon', href: '#',
     feats: ['Everything in Community', 'Mission Control dashboard', 'Personal device sync — memory follows you', 'Encrypted backups + time travel', 'License entitlements + priority token budget'] },
-  { name: 'Enterprise Gateway', price: [39, 32], tone: 'fg', tag: 'Per seat', cta: 'Start Enterprise', href: 'mailto:hello@genesis-memory.dev?subject=Enterprise%20license',
+  { name: 'Enterprise Gateway', price: [39, 32], tone: 'fg', tag: 'Coming Soon', hot: false, comingSoon: true, cta: 'Coming Soon', href: '#',
     feats: ['Everything in Pro', 'Team shared memory sync (vector clocks)', 'On-prem Docker gateway', 'Zero-leak audit logs', 'Per-seat license keys', 'SLA support'] },
 ]
 
@@ -25,17 +25,25 @@ export default function Pricing() {
         <div className="grid g3" style={{ marginTop: 34, alignItems: 'stretch' }}>
           {TIERS.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.08}>
-              <Holo style={{ height: '100%', border: t.hot ? '1px solid rgba(0,240,255,.45)' : undefined, boxShadow: t.hot ? '0 0 80px -30px rgba(0,240,255,.6)' : undefined }}>
+              <Holo style={{ height: '100%', border: t.hot ? '1px solid rgba(0,240,255,.45)' : (t.comingSoon ? '1px solid rgba(148,163,184,.15)' : undefined), boxShadow: t.hot ? '0 0 80px -30px rgba(0,240,255,.6)' : undefined, opacity: t.comingSoon ? 0.88 : 1 }}>
                 <div className="pad" style={{ display: 'flex', flexDirection: 'column', gap: 16, height: '100%' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><b style={{ fontSize: 15 }}>{t.name}</b><span className={`pill ${t.tone}`}>{t.tag}</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><b style={{ fontSize: 15, color: t.comingSoon ? 'var(--fg-2)' : undefined }}>{t.name}</b><span className={`pill ${t.comingSoon ? 'amber' : t.tone}`}>{t.tag}</span></div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                    <AnimatePresence mode="wait"><motion.span key={annual ? 'a' : 'm'} initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }} transition={{ duration: .25 }} className="mono" style={{ fontSize: 46, fontWeight: 700, letterSpacing: '-.04em', color: `var(--${t.tone})` }}>${t.price[annual ? 1 : 0]}</motion.span></AnimatePresence>
+                    <AnimatePresence mode="wait"><motion.span key={annual ? 'a' : 'm'} initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }} transition={{ duration: .25 }} className="mono" style={{ fontSize: 46, fontWeight: 700, letterSpacing: '-.04em', color: t.comingSoon ? 'var(--fg-3)' : `var(--${t.tone})` }}>${t.price[annual ? 1 : 0]}</motion.span></AnimatePresence>
                     <span style={{ color: 'var(--fg-3)', fontSize: 13 }}>{t.price[0] === 0 ? 'forever' : `/ ${t.name.startsWith('Enterprise') ? 'seat / ' : ''}month`}</span>
                   </div>
                   <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 9, flex: 1 }}>
-                    {t.feats.map(f => <li key={f} style={{ display: 'flex', gap: 10, fontSize: 13.5, color: 'var(--fg-2)' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={`var(--${t.tone})`} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flex: 'none', marginTop: 2 }}><path d="M5 12l5 5L20 7" /></svg>{f}</li>)}
+                    {t.feats.map(f => <li key={f} style={{ display: 'flex', gap: 10, fontSize: 13.5, color: 'var(--fg-2)' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={t.comingSoon ? 'var(--fg-3)' : `var(--${t.tone})`} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flex: 'none', marginTop: 2 }}><path d="M5 12l5 5L20 7" /></svg>{f}</li>)}
                   </ul>
-                  <Magnetic strength={0.2}><a className={`btn ${t.hot ? 'primary' : ''}`} href={t.href} style={{ width: '100%' }}>{t.cta} <Arrow /></a></Magnetic>
+                  <Magnetic strength={t.comingSoon ? 0 : 0.2}>
+                    {t.comingSoon ? (
+                      <button className="btn" disabled style={{ width: '100%', opacity: 0.6, cursor: 'not-allowed', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--line)', color: 'var(--fg-3)' }}>
+                        {t.cta}
+                      </button>
+                    ) : (
+                      <a className={`btn ${t.hot ? 'primary' : ''}`} href={t.href} style={{ width: '100%' }}>{t.cta} <Arrow /></a>
+                    )}
+                  </Magnetic>
                 </div>
               </Holo>
             </Reveal>))}
@@ -88,7 +96,7 @@ export function Footer() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 900, letterSpacing: '.16em', fontSize: 13 }}><span style={{ width: 20, height: 20, borderRadius: '50%', background: 'radial-gradient(circle at 35% 35%,#fff,var(--cyan) 35%,rgba(0,240,255,.15) 70%,transparent 72%)', boxShadow: '0 0 18px rgba(0,240,255,.7)' }} />GENESIS</div>
           <p style={{ color: 'var(--fg-3)', fontSize: 13, marginTop: 12, maxWidth: 360, lineHeight: 1.6 }}>The persistent brain and token diet for every AI coding agent. Local-first, stdlib-only, tested to the byte.</p>
-          <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}><span className="pill emerald">472 tests green</span><span className="pill cyan">BSL · MIT core soon</span><span className="pill">python ≥ 3.10</span></div>
+          <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}><span className="pill emerald">421 tests green</span><span className="pill cyan">v0.12.0</span><span className="pill">python ≥ 3.10</span></div>
         </div>
           {[['Product', ['Token Diet#diet', 'Spooling#spool', 'Privacy Shield#shield', 'Conduit#conduit', 'Sleep#sleep', 'Pricing#pricing']], ['Clients', ['Cursor#setup', 'Claude Code#setup', 'VS Code#setup', 'Zed#setup', 'JetBrains#setup', 'Neovim & Emacs#setup']], ['Resources', ['PyPI|https://pypi.org/project/genesis-memory/']]].map(([h, items]) => (
           <div key={h}><div style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 12 }}>{h}</div>
