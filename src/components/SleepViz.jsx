@@ -52,9 +52,10 @@ export default function SleepViz() {
       const dt = Math.min(0.05, (now - last) / 1000); last = now
       if (!visibleRef.current) { raf = requestAnimationFrame(frame); return }
       const dpr = window.devicePixelRatio || 1; const r = cv.getBoundingClientRect()
-      if (cv.width !== Math.round(r.width * dpr)) { cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr) }
+      const tw = Math.round(r.width * dpr), th = Math.round(r.height * dpr)
+      if (cv.width !== tw || cv.height !== th) { cv.width = tw; cv.height = th }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const w = r.width, h = r.height; ctx.clearRect(0, 0, w, h)
-      const pad = { l: 40, r: 16, t: 18, b: 28 }, W = w - pad.l - pad.r, H = h - pad.t - pad.b
+      const pad = { l: 44, r: 20, t: 36, b: 30 }, W = Math.max(10, w - pad.l - pad.r), H = Math.max(10, h - pad.t - pad.b)
       ctx.strokeStyle = 'rgba(148,163,184,.12)'; ctx.lineWidth = 1
       for (let i = 0; i <= 4; i++) { const y = pad.t + H * i / 4; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke(); ctx.fillStyle = '#5f6d80'; ctx.font = '10px JetBrains Mono'; ctx.textAlign = 'right'; ctx.fillText((100 - 25 * i) + '%', pad.l - 8, y + 3) }
       ctx.textAlign = 'center'; for (const d of [0, 15, 30, 45, 60]) ctx.fillText(d + 'd', pad.l + W * d / 60, h - 8)
@@ -113,7 +114,7 @@ export default function SleepViz() {
         <div className="grid" style={{ gridTemplateColumns: 'minmax(0,1.25fr) minmax(0,.75fr)', marginTop: 44, alignItems: 'stretch' }}>
           <Reveal>
             <div className="card" style={{ height: 440, position: 'relative' }}>
-              <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 38 }} />
+              <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'calc(100% - 38px)', display: 'block' }} />
               <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, borderTop: '1px solid var(--line)', background: 'rgba(5,7,11,.72)' }}>
                 {CURVES.map(c => (
                   <span key={c.label} className="mono" style={{ fontSize: 10.5, color: 'var(--fg-2)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
