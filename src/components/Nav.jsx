@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Magnetic } from './ui'
 
-const LINKS = [['Diet', '#diet'], ['Spool', '#spool'], ['Shield', '#shield'], ['Conduit', '#conduit'], ['Sleep', '#sleep'], ['Clients', '#setup'], ['Pricing', '#pricing']]
+const LINKS = [['Primitives', '#primitives'], ['Diet', '#diet'], ['Spool', '#spool'], ['Shield', '#shield'], ['Conduit', '#conduit'], ['Sleep', '#sleep'], ['Clients', '#setup'], ['Pricing', '#pricing']]
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)

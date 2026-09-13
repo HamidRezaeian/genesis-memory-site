@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
+import PrimitivesMatrix from './components/PrimitivesMatrix'
 import SpoolDemo from './components/SpoolDemo'
 import DietSlider from './components/DietSlider'
 import OutputDiet from './components/OutputDiet'
@@ -53,6 +54,7 @@ export default function App() {
       <Nav />
       <main style={{ position: 'relative', zIndex: 2 }}>
         <Hero />
+        <PrimitivesMatrix />
         <SpoolDemo />
         <DietSlider />
         <OutputDiet />
