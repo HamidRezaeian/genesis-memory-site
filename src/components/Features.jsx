@@ -9,6 +9,7 @@ const FEATURES = [
   { t: 'AST dependency closure', d: 'Extracted import graphs let an agent attest that its working context covers the real blast radius of a change — before it claims the task is done.', tone: 'cyan', tag: 'attest_closure()' },
   { t: 'Mission Control dashboard', d: 'A zero-dependency cockpit streaming SSE telemetry: memory universe, engram explorer, conflict deck, skill browser, token diet, client mesh, privacy sandbox.', tone: 'rose', tag: 'genesis dashboard' },
   { t: 'Memory follows you', d: 'One encrypted file carries your whole memory to your other machines. Content-addressed merge never overwrites: re-imports change nothing, id collisions are preserved as new memories.', tone: 'cyan', tag: 'genesis sync · Pro' },
+  { t: 'One skill library, every client', d: 'Native SKILL.md folders synced across Claude Code, Antigravity, opencode, Cursor, Copilot and Codex. Content-hash dedup, dry-run by default, fully reversible — zero tokens, pure filesystem.', tone: 'cyan', tag: 'genesis skill-sync' },
   { t: 'Backups + time travel', d: 'Automatic encrypted snapshots of the whole database with bounded retention. Restore safety-saves the present first and verifies integrity before swapping — a broken restore is structurally impossible.', tone: 'cyan', tag: 'genesis backup · Pro' },
 ]
 
