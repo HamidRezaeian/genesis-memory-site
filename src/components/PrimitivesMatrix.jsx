@@ -579,7 +579,7 @@ export default function PrimitivesMatrix() {
                 <p style={{ color: 'var(--fg-2)', fontSize: 13.5, marginTop: 4 }}>Compare what is included in each standalone primitive vs the full Tri-Modal stack.</p>
               </div>
               <div className="mono" style={{ fontSize: 12, color: 'var(--cyan)' }}>
-                467 tests passed · 100% verified behavior
+                471 tests passed · 100% verified behavior
               </div>
             </div>
 

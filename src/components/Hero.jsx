@@ -37,7 +37,7 @@ function LiveTicker() {
     <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap', alignItems: 'center' }}>
       <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, color: 'var(--cyan)', letterSpacing: '-.03em' }}>{fmt.int(tk)}</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>tokens dieted · live</div></div>
       <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, color: '#fff', letterSpacing: '-.03em' }}>{fmt.usd(dl)}</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>saved this month</div></div>
-      <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-.03em' }}>467</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>tests green</div></div>
+      <div><div className="mono" style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-.03em' }}>471</div><div style={{ fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.14em', textTransform: 'uppercase' }}>tests green</div></div>
     </div>
   )
 }
@@ -49,7 +49,7 @@ export default function Hero() {
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 100%, rgba(0,0,0,.94), transparent 60%), radial-gradient(ellipse 60% 70% at 22% 45%, rgba(0,0,0,.72), transparent 70%), linear-gradient(180deg, rgba(0,0,0,.45), transparent 30%, rgba(0,0,0,.85))', pointerEvents: 'none' }} />
       <div className="wrap hero-grid" style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0,1.15fr) minmax(0,.85fr)', gap: 40, alignItems: 'center', paddingBottom: 80 }}>
         <div>
-          <motion.span className="eyebrow" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}><i />Cognitive Memory OS · v0.13 · Local-first</motion.span>
+          <motion.span className="eyebrow" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}><i />Cognitive Memory OS · v0.14.3 · Local-first</motion.span>
           <h1 style={{ fontSize: 'clamp(42px, 6.4vw, 88px)', fontWeight: 900, margin: '22px 0 20px', lineHeight: 0.98 }}>
             <Words text="One brain for" delay={0.25} /><br />
             <span className="grad" style={{ background: 'linear-gradient(90deg,#fff 0%,var(--cyan) 70%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}><Words text="every AI agent." delay={0.55} /></span>
