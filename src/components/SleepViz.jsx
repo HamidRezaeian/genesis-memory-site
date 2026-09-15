@@ -12,7 +12,7 @@ const PHASES = [
   { k: 'REM', title: 'Distil skills', tone: 'fg', desc: 'Recurring successful outcomes with shared trigger patterns are compressed into one deterministic procedural skill.' },
   { k: 'WAKE', title: 'Write digest', tone: 'fg', desc: 'Top decisions and facts are rendered into a bounded Active Digest that primes the next session\'s first prompt.' },
 ]
-const OUTCOMES = ['genesis run -- pytest → 426 passed', 'genesis run -- pytest -x → green', 'pytest tests/ headless → green', 'genesis run -- pytest -q → exit 0']
+const OUTCOMES = ['genesis run -- pytest → 440 passed', 'genesis run -- pytest -x → green', 'pytest tests/ headless → green', 'genesis run -- pytest -q → exit 0']
 // Decay curves, strongest last. Rank is encoded in dash + weight, never hue:
 // dotted slate → solid white → dashed white → solid cyan (solidified = goal).
 const CURVES = [

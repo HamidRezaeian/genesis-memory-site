@@ -96,7 +96,7 @@ export function Footer() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 900, letterSpacing: '.16em', fontSize: 13 }}><span style={{ width: 20, height: 20, borderRadius: '50%', background: 'radial-gradient(circle at 35% 35%,#fff,var(--cyan) 35%,rgba(0,240,255,.15) 70%,transparent 72%)', boxShadow: '0 0 18px rgba(0,240,255,.7)' }} />GENESIS</div>
           <p style={{ color: 'var(--fg-3)', fontSize: 13, marginTop: 12, maxWidth: 360, lineHeight: 1.6 }}>The persistent brain and token diet for every AI coding agent. Local-first, stdlib-only, tested to the byte.</p>
-          <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}><span className="pill emerald">426 tests green</span><span className="pill cyan">v0.13.0</span><span className="pill">python ≥ 3.10</span></div>
+          <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}><span className="pill emerald">440 tests green</span><span className="pill cyan">v0.14.1</span><span className="pill">python ≥ 3.10</span></div>
         </div>
           {[['Product', ['Token Diet#diet', 'Spooling#spool', 'Privacy Shield#shield', 'Conduit#conduit', 'Sleep#sleep', 'Pricing#pricing']], ['Clients', ['Cursor#setup', 'Claude Code#setup', 'VS Code#setup', 'Zed#setup', 'JetBrains#setup', 'Neovim & Emacs#setup']], ['Resources', ['PyPI|https://pypi.org/project/genesis-memory/']]].map(([h, items]) => (
           <div key={h}><div style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 12 }}>{h}</div>
