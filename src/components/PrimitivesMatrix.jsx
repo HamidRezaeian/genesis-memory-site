@@ -25,13 +25,13 @@ const MODES = [
     name: 'Tri-Modal (All 3)',
     badge: 'Recommended',
     tagline: 'The Autonomous Singularity Stack',
-    desc: 'Run MCP + Hook + Proxy together. Permanent cross-IDE memory, subconscious instant recall before every turn, and 70.4% token cut with lossless tool spooling.',
+    desc: 'Run MCP + Hook + Proxy together. Permanent cross-IDE memory, subconscious instant recall before every turn, and a transparent output-token diet with lossless tool spooling.',
     cmd: 'genesis setup --yes && genesis proxy setup',
     mcp: true,
     hook: true,
     proxy: true,
     stats: {
-      tokensSaved: '70.4%',
+      tokensSaved: '−66.2%',
       latency: 'Sub-10ms',
       offlineLocal: 'Hybrid (Local Core + Cloud LLM)',
       crossIdeSync: 'All 20+ AI Tools',
@@ -79,13 +79,13 @@ const MODES = [
     name: 'Proxy Only',
     badge: 'Token Diet & Gateway',
     tagline: 'Stateless Reverse Proxy & Model Freedom',
-    desc: 'Listens on 127.0.0.1:8000. Cuts output tokens by 70.4%, collapses 4,000-line tool outputs into 84-token pointers, and forwards requests to OpenRouter, OpenAI, or Groq with any model on the fly.',
+    desc: 'Listens on 127.0.0.1:8000. Trims output tokens (illustrative −66.2% aggregate, n=3), collapses long tool outputs into short pointers, and forwards requests to OpenRouter, OpenAI, or Groq with any model on the fly.',
     cmd: 'genesis proxy setup',
     mcp: false,
     hook: false,
     proxy: true,
     stats: {
-      tokensSaved: '70.4% Output Diet',
+      tokensSaved: 'Illustrative Diet',
       latency: 'Streaming Passthrough',
       offlineLocal: 'Requires LLM Provider Key',
       crossIdeSync: 'Aider, OpenCode & SDKs',
@@ -136,7 +136,7 @@ const MATRIX_ROWS = [
     category: 'Token Diet & Financial Efficiency',
     features: [
       {
-        name: '70.4% Output Token Diet',
+        name: 'Output Token Diet (illustrative −66.2%, n=3)',
         desc: 'Curbs conversational fluff and enforces concise answers and byte-exact code blocks.',
         mcp: false,
         hook: false,
@@ -145,7 +145,7 @@ const MATRIX_ROWS = [
       },
       {
         name: 'Lossless Headless Tool Spooling',
-        desc: 'Collapses 4,000-line pytest/git/compiler terminal logs into 84-token line-anchored pointers.',
+        desc: 'Collapses long pytest/git/compiler terminal logs into short line-anchored pointers.',
         mcp: false,
         hook: false,
         proxy: true,
@@ -487,7 +487,7 @@ export default function PrimitivesMatrix() {
                     </li>
                     <li style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                       <Check size={16} color="var(--cyan)" style={{ flexShrink: 0, marginTop: 3 }} />
-                      <span><strong>Supported Environments:</strong> Cursor 1.7 (hooks.json), Claude Code (PrePrompt), OpenCode plugin.</span>
+                      <span><strong>Supported Environments:</strong> Cursor 1.7 (hooks.json), Claude Code (UserPromptSubmit), OpenCode plugin.</span>
                     </li>
                   </ul>
                 </div>
@@ -527,7 +527,7 @@ export default function PrimitivesMatrix() {
                 <div>
                   <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>3. Gateway Proxy</h3>
                   <p style={{ color: 'var(--fg-2)', fontSize: 13.5, lineHeight: 1.6 }}>
-                    Stateless OpenAI & Anthropic reverse proxy. Enforces 70.4% output token diet and lossless tool output compaction.
+                    Stateless OpenAI & Anthropic reverse proxy. Enforces output token diet and lossless tool output compaction.
                   </p>
                 </div>
 
@@ -538,11 +538,11 @@ export default function PrimitivesMatrix() {
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13.5, color: 'var(--fg-2)' }}>
                     <li style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                       <Check size={16} color="var(--cyan)" style={{ flexShrink: 0, marginTop: 3 }} />
-                      <span><strong>70.4% Outbound Token Cut:</strong> Transparent output diet stops repetitive code chatter and cuts API bills.</span>
+                      <span><strong>Leaner Outbound Tokens:</strong> Transparent output diet trims repetitive code chatter (illustrative −66.2% aggregate, n=3).</span>
                     </li>
                     <li style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                       <Check size={16} color="var(--cyan)" style={{ flexShrink: 0, marginTop: 3 }} />
-                      <span><strong>Tool Spooling:</strong> Collapses 4,000-line test or diff logs into an 84-token pointer (-98.4% volume).</span>
+                      <span><strong>Tool Spooling:</strong> Collapses long test or diff logs into short line-anchored pointers.</span>
                     </li>
                     <li style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                       <Check size={16} color="var(--cyan)" style={{ flexShrink: 0, marginTop: 3 }} />
@@ -579,7 +579,7 @@ export default function PrimitivesMatrix() {
                 <p style={{ color: 'var(--fg-2)', fontSize: 13.5, marginTop: 4 }}>Compare what is included in each standalone primitive vs the full Tri-Modal stack.</p>
               </div>
               <div className="mono" style={{ fontSize: 12, color: 'var(--cyan)' }}>
-                440 tests passed · 100% verified behavior
+                467 tests passed · 100% verified behavior
               </div>
             </div>
 

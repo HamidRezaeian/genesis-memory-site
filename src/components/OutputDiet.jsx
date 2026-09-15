@@ -311,8 +311,8 @@ export default function OutputDiet() {
             {/* Aggregated Benchmark Metrics Footer */}
             <div style={{ marginTop: 24, paddingTop: 18, borderTop: '1px solid var(--line)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: 16, textAlign: 'center' }}>
               <div>
-                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>70.4%</span>
-                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Avg Live Token Cut</p>
+                <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>66.2%</span>
+                <p style={{ fontSize: 11, color: 'var(--fg-3)', marginTop: 2, letterSpacing: '.06em', textTransform: 'uppercase' }}>Illustrative Token Cut (n=3)</p>
               </div>
               <div>
                 <span className="mono" style={{ fontSize: 24, fontWeight: 800, color: 'var(--cyan)' }}>96.4%</span>
